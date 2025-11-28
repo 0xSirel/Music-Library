@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Music-Library"
+version = "1.0.0"
+dynamic = ["dependencies"]
+requires-python = ">=3.13"
+description = "A music library application that allows you to search for albums and artists using Discogs API"
+readme = {file = "README.md", content-type = "text/markdown"}
+license-files = ["LICENSE"]
+authors = [{name = "0xSirel"}]
+keywords = ["music", "library", "discogs", "vinyl", "cd", "cassette"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+
+[project.urls]
+Repository = "https://github.com/0xSirel/MusicLibrary"
+Issues = "https://github.com/0xSirel/MusicLibrary/issues"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[project.optional-dependencies]
+dev = ["ruff", "pytest", "pytest-cov"]
+
+[project.scripts]
+music-library = "src.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+include = ["pyproject.toml", "src/**/*.py"]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+line-length = 88
+indent-width = 4
+
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+
+fixable = ["ALL"]
+unfixable = []
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+
+indent-style = "space"
+
+skip-magic-trailing-comma = false
+
+line-ending = "auto"
+
+docstring-code-format = false
+
+docstring-code-line-length = "dynamic"
+
+[tool.pytest.ini_options]
+addopts = "--cov=musiclibrary --cov-report=term-missing"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["musiclibrary"]
+omit = [
+    "src/musiclibrary/cli_menu.py",
+    "src/musiclibrary/main.py",
+    "src/musiclibrary/vinile.py"
+]
+
+[tool.coverage.report]
+fail_under = 40
+show_missing = true
+
