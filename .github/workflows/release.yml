@@ -12,8 +12,7 @@ permissions: write-all
 
 jobs:
   release:
-    if: >
-      github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.name == 'Build' && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +23,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Release
         uses: softprops/action-gh-release@v2
