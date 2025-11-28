@@ -10,8 +10,7 @@ lint-fix:
 	ruff check src --fix
 
 test:
-	coverage run -m pytest
-	coverage report -m
+	pytest --cov=src/musiclibrary --cov-report=term-missing
 
 build: lint-fix test
 	python -m build
