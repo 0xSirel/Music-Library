@@ -41,7 +41,7 @@ pip install build
 
 2. Build the wheel:
 ``` bash
-python -m build
+make all
 ```
 
 The wheel file will be created in the `dist/` directory and can be distributed or installed with:
