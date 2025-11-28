@@ -29,6 +29,9 @@ jobs:
       run: make test
       env:
         DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+        
+    - name: Install buld package
+      run:  pip install build
       
     - name: Build
       run: python -m build
