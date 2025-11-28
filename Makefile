@@ -7,7 +7,7 @@ lint-check:
 	ruff check src
 
 lint-fix:
-	ruff fix src
+	ruff check src --fix
 
 test:
 	coverage run -m pytest

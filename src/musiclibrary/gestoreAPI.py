@@ -9,7 +9,9 @@ from src.musiclibrary.vinile import Vinile
 load_dotenv()
 DISCOGS_TOKEN = os.getenv("DISCOGS_TOKEN")
 if not DISCOGS_TOKEN:
-    raise RuntimeError("DISCOGS_TOKEN not set. Set it as an environment variable before starting the application.")
+    raise RuntimeError(
+        "DISCOGS_TOKEN not set. Set it as an environment variable before starting the application."
+    )
 
 
 def cerca_per_barcode(barcode):
