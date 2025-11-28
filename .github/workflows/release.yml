@@ -33,4 +33,4 @@ jobs:
         with:
           tag_name: latest
           name: Latest build
-          files: "dist/*.whl"
+          files: "dist/*"
