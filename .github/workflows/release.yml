@@ -25,9 +25,8 @@ jobs:
           name: dist
           path: dist
           run-id: ${{ github.event.workflow_run.id }}
-
-      - name: Display structure of downloaded files
-        run: ls -R dist
+          github-token: ${{ secrets.GH_PAT }}
+          repository: 0xSirel/Music-Library
 
       - name: Release
         uses: softprops/action-gh-release@v2
