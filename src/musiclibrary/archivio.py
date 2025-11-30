@@ -116,6 +116,7 @@ def backup_database():
 
 
 def stampa_backup():
+    os.makedirs("Backup", exist_ok=True)
     percorso_cartella = "Backup"
     percorso_file = []
     for file in os.listdir(percorso_cartella):
