@@ -82,8 +82,6 @@ def barcode_to_vinile(barcode):
                         vinile["barcode"],
                     )
                     return vinile2
-                return None
-            return None
     return None
 
 

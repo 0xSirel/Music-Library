@@ -5,9 +5,11 @@ init:
 
 lint-check:
 	ruff check src
+	ruff check tests
 
 lint-fix:
 	ruff check src --fix
+	ruff check tests --fix
 
 test:
 	pytest --cov=src/musiclibrary --cov-report=term-missing

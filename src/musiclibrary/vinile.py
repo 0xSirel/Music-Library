@@ -54,3 +54,8 @@ class Vinile:
             "style": self.style,
             "barcode": self.barcode,
         }
+
+    def __eq__(self, other):
+        if not isinstance(other, Vinile):
+            return NotImplemented
+        return self.to_dict() == other.to_dict()
