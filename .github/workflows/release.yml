@@ -25,7 +25,7 @@ jobs:
           name: dist
           path: dist
           run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           repository: 0xSirel/Music-Library
 
       - name: Release
