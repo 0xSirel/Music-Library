@@ -89,6 +89,7 @@ jobs:
           name: dist
           path: dist
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: 0xSirel/Music-Library
 
       - name: Release
         uses: softprops/action-gh-release@v2
