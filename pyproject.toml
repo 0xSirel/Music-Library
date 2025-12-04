@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Music-Library"
-version = "1.0.1"
+version = "1.0.0"
 dynamic = ["dependencies"]
 requires-python = ">=3.13"
 description = "A music library application that allows you to search for albums and artists using Discogs API"

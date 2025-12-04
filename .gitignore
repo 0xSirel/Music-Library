@@ -1,6 +1,3 @@
-Database/vinili.json
-Database/dump/dump_vinili.json
-
 __pycache__/
 *.pyc
 *.pyo
@@ -23,3 +20,5 @@ dist
 Music_Library.egg-info
 src/Music_Library.egg-info
 build
+Database
+Backup

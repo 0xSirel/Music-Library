@@ -1,6 +1,10 @@
-.PHONY: init lint-fix lint-check lint test build
+.PHONY: init lint-fix lint-check lint test build all clean
+
+clean:
+	rm -rf dist __pycache__ .pytest_cache .coverage src/Music_Library.egg-info
 
 init:
+	pip install --upgrade pip
 	pip install -e .[dev]
 
 lint-check:
@@ -12,9 +16,9 @@ lint-fix:
 	ruff check tests --fix
 
 test:
-	pytest --cov=src/musiclibrary --cov-report=term-missing
+	python -m pytest
 
-build: lint-fix test
+build: lint-check test
 	python -m build
 
 all : init build

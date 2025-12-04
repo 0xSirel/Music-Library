@@ -30,14 +30,8 @@ jobs:
       env:
         DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
         
-    - name: Install buld package
+    - name: Install build package
       run:  pip install build
       
     - name: Build
       run: python -m build
-
-    - name: Upload dist
-      uses: actions/upload-artifact@v4
-      with:
-        name: dist
-        path: dist/*

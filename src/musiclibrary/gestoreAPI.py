@@ -17,7 +17,9 @@ if not DISCOGS_TOKEN:
 def cerca_per_album(album):
     url = f"https://api.discogs.com/database/search?q={album}&type=release&token={DISCOGS_TOKEN}"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=7)
+    if response.status_code != 200:
+        raise RuntimeError("Error getting data")
 
     if response.status_code == 200:
         vinili_disponibili = []
@@ -66,7 +68,7 @@ def cerca_per_album(album):
 
 def estrai_da_master_url(vinile):
     url = vinile.master_url
-    response = requests.get(url)
+    response = requests.get(url, timeout=7)
     if response.status_code == 200:
         data = response.json()
         genres = data.get("genres", [])
@@ -84,4 +86,4 @@ def estrai_da_master_url(vinile):
         )
         return vinile2
     else:
-        return None
+        raise RuntimeError("Error getting data")
