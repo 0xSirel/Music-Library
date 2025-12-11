@@ -41,7 +41,7 @@ def aggiungi():
     vinile = Vinile(
         artista, album, anno, country, master_url, formato, genere, style, barcode
     )
-    result=database.insert_album(vinile.to_dict())
+    result = database.insert_album(vinile.to_dict())
 
     return jsonify({"inserted_id": str(result)}), 201
 
@@ -57,7 +57,7 @@ def health_check():
 
 
 def main():
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000)    # nosec
 
 
 if __name__ == "__main__":

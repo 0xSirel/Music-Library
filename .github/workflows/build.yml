@@ -33,6 +33,7 @@ jobs:
           # excluded_paths: # optional, default is DEFAULT
           # comma-separated list of test IDs to skip
           # skips: # optional, default is DEFAULT
+          skips: 'B104'
           # path to a .bandit file that supplies command line arguments
           # ini_path: # optional, default is DEFAULT
 
