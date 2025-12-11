@@ -19,6 +19,11 @@ Before running the application, you need to set up your environment variables:
 ``` bash
 DISCOGS_TOKEN=your_token_here
 FLASK_ENV=development
+MONGO_USER=root
+MONGO_PASS=example
+MONGO_HOST=mongo
+MONGO_PORT=27017
+MONGO_DB=Music-Library
 ```
 
 ## Docker
