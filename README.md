@@ -23,8 +23,7 @@ FLASK_ENV=development
 
 ## Docker
 ``` bash
-docker build -t music-library .
-docker run -it -p 5000:5000 music-library
+docker compose up -d
 ```
 ## Usage
 ``` bash
@@ -46,7 +45,7 @@ make all
 
 The wheel file will be created in the `dist/` directory and can be distributed or installed with:
 ``` bash
-pip install dist/music_library-1.0.0-py3-none-any.whl
+pip install dist/music_library-X.X.X-py3-none-any.whl
 ```
 
 ## Credits
