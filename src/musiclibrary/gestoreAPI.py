@@ -25,11 +25,10 @@ def cerca_per_album(album):
         vinili_disponibili = []
         nome_file = "dump_vinili.json"
 
-        percorso_cartella = "Database"
-        percorso_sottocartella = "dump"
-        percorso_file = os.path.join(
-            percorso_cartella, percorso_sottocartella, nome_file
-        )
+        percorso_cartella = "Dump"
+        percorso_file = os.path.join(percorso_cartella, nome_file)
+
+        os.makedirs(percorso_cartella, exist_ok=True)
 
         os.makedirs(os.path.dirname(percorso_file), exist_ok=True)
 

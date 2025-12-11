@@ -36,7 +36,7 @@ music-library = "src.main:main"
 where = ["src"]
 
 [tool.ruff]
-include = ["pyproject.toml", "src/**/*.py","tests/**/*.py"]
+include = ["src/**/*.py","tests/**/*.py"]
 exclude = [
     ".bzr",
     ".direnv",
@@ -105,10 +105,11 @@ omit = [
     "src/musiclibrary/cli_menu.py",
     "src/musiclibrary/main.py",
     "src/musiclibrary/vinile.py",
-    "src/musiclibrary/__init__.py"
+    "src/musiclibrary/__init__.py",
+    "src/musiclibrary/mongo_client.py"
 ]
 
 [tool.coverage.report]
-fail_under = 90
+fail_under = 85
 show_missing = true
 

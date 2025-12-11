@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-from src.musiclibrary.archivio import salva_in_json, stampa_archivio
+import src.musiclibrary.mongo_client as database
 from src.musiclibrary.gestoreAPI import cerca_per_album
 from src.musiclibrary.vinile import Vinile
 
@@ -41,20 +41,14 @@ def aggiungi():
     vinile = Vinile(
         artista, album, anno, country, master_url, formato, genere, style, barcode
     )
-    salva_in_json(vinile)
-    return jsonify({"message": "Vinile added successfully"}), 201
+    result=database.insert_album(vinile.to_dict())
+
+    return jsonify({"inserted_id": str(result)}), 201
 
 
 @app.route("/api/print", methods=["GET"])
 def stampa():
-    disponibili = stampa_archivio()
-    if not disponibili:
-        return jsonify({"error": "No available albums found"}), 404
-    disponibili_send = []
-    for vinile in disponibili:
-        disponibili_send.append(vinile.to_dict())
-
-    return jsonify(disponibili_send)
+    return jsonify(database.get_all_albums())
 
 
 @app.route("/api/health_check", methods=["GET"])
@@ -63,7 +57,7 @@ def health_check():
 
 
 def main():
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="0.0.0.0", port=5000)
 
 
 if __name__ == "__main__":

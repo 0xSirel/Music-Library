@@ -8,12 +8,10 @@ init:
 	pip install -e .[dev]
 
 lint-check:
-	ruff check src
-	ruff check tests
+	ruff check
 
 lint-fix:
-	ruff check src --fix
-	ruff check tests --fix
+	ruff check --fix
 
 test:
 	python -m pytest
