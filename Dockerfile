@@ -1,12 +1,27 @@
-FROM python:3.13
+FROM ghcr.io/astral-sh/uv:python3.13-trixie
+
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
 WORKDIR /music_library
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+ENV UV_NO_DEV=1
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
+ENV PATH="/music_library/.venv/bin:$PATH"
 
-COPY src/ ./src
+COPY pyproject.toml uv.lock ./
 
-ENTRYPOINT ["python", "-m", "src.musiclibrary.main"]
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project
 
-EXPOSE 5000
+COPY --chown=nonroot:nonroot src/ ./src
+
+
+RUN  chown -R nonroot:nonroot /music_library && uv sync --locked
+
+USER nonroot
+
+ENTRYPOINT ["python", "-m", "musiclibrary.main"]
+EXPOSE 5002

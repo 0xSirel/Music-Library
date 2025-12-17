@@ -2,11 +2,9 @@ import json
 import os
 
 import requests
-from flask.cli import load_dotenv
 
 from src.musiclibrary.vinile import Vinile
 
-load_dotenv()
 DISCOGS_TOKEN = os.getenv("DISCOGS_TOKEN")
 if not DISCOGS_TOKEN:
     raise RuntimeError(

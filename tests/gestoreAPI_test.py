@@ -9,7 +9,7 @@ def crea_vinile():
         anno="1996",
         country="Europe",
         master_url="https://api.discogs.com/masters/410944",
-        barcode=["1234567890"]
+        barcode=["1234567890"],
     )
 
 

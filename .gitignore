@@ -20,3 +20,6 @@ dist
 Music_Library.egg-info
 src/Music_Library.egg-info
 build
+coverage.json
+Dump
+Kubernetes/env-configmap.yaml

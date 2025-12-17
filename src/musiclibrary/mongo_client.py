@@ -22,7 +22,7 @@ def get_collection(collection_name):
 
 
 def insert_album(album):
-    albums = get_collection('albums')
+    albums = get_collection("albums")
     result = albums.insert_one(album)
     return result.inserted_id
 

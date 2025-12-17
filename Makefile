@@ -1,22 +1,16 @@
-.PHONY: init lint-fix lint-check lint test build all clean
+.PHONY: lint-fix lint-check test build clean
 
 clean:
-	rm -rf dist __pycache__ .pytest_cache .coverage src/Music_Library.egg-info
-
-init:
-	pip install --upgrade pip
-	pip install -e .[dev]
+	rm -rf dist __pycache__ .pytest_cache .coverage src/Music_Library.egg-info coverage.json
 
 lint-check:
-	ruff check
+	uv run ruff check
 
 lint-fix:
-	ruff check --fix
+	uv run ruff check --fix
 
-test:
-	python -m pytest
+test: clean
+	uv run script_tests.py
 
 build: lint-check test
-	python -m build
-
-all : init build
+	uv build
