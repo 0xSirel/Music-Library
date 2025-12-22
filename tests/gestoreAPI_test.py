@@ -15,14 +15,35 @@ def crea_vinile():
     )
 
 
-def test_cerca_per_album():
-    vinile = crea_vinile()
-    gestoreAPI.cerca_per_album(vinile)
+@patch("musiclibrary.gestoreAPI.requests.get")
+def test_cerca_per_album(mock_get):
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {
+        "results": [
+            {
+                "title": "Neurotic Outsiders - Neurotic Outsiders",
+                "country": "Europe",
+                "year": "1996",
+                "master_url": "https://api.discogs.com/masters/410944",
+                "format": ["Vinyl"],
+                "genres": ["Rock"],
+                "style": ["Alternative Rock"],
+                "barcode": ["1234567890"],
+            }
+        ]
+    }
     risultati = gestoreAPI.cerca_per_album("Neurotic Outsiders")
     assert len(risultati) > 0
+    assert risultati[0].artista == "Neurotic Outsiders"
 
 
-def test_estrai_da_master_url():
+@patch("musiclibrary.gestoreAPI.requests.get")
+def test_estrai_da_master_url(mock_get):
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {
+        "genres": ["Rock"],
+        "styles": ["Alternative Rock"],
+    }
     vinile = crea_vinile()
     vinile_obj = gestoreAPI.estrai_da_master_url(vinile)
     assert vinile_obj.artista == "Neurotic Outsiders"
