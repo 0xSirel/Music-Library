@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from musiclibrary import gestoreAPI
 from musiclibrary.vinile import Vinile
 

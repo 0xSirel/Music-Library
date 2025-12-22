@@ -1,5 +1,6 @@
 from musiclibrary.vinile import Vinile
 
+
 class TestVinile:
     def test_creazione_vinile_completo(self):
         v = Vinile("Artist", "Album", "2020", "IT", "http://url", ["LP"], ["Rock"], ["Punk"], ["123"])

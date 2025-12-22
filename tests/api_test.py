@@ -1,13 +1,15 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from src.musiclibrary.main import app
 from musiclibrary.vinile import Vinile
+
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
+
 
 class TestSearchAPI:
     def test_search_missing_param(self, client):
@@ -27,6 +29,7 @@ class TestSearchAPI:
         response = client.get('/api/search?name=test')
         assert response.status_code == 200
 
+
 class TestAddAPI:
     def test_add_missing_json(self, client):
         response = client.post('/api/add')
@@ -42,6 +45,7 @@ class TestAddAPI:
         }
         response = client.post('/api/add', json=data)
         assert response.status_code == 201
+
 
 class TestHealthCheck:
     def test_health_check(self, client):
