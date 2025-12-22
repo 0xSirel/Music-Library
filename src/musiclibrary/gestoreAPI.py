@@ -19,48 +19,45 @@ def cerca_per_album(album):
     if response.status_code != 200:
         raise RuntimeError("Error getting data")
 
-    if response.status_code == 200:
-        vinili_disponibili = []
-        nome_file = "dump_vinili.json"
+    vinili_disponibili = []
+    nome_file = "dump_vinili.json"
 
-        percorso_cartella = "Dump"
-        percorso_file = os.path.join(percorso_cartella, nome_file)
+    percorso_cartella = "Dump"
+    percorso_file = os.path.join(percorso_cartella, nome_file)
 
-        os.makedirs(percorso_cartella, exist_ok=True)
+    os.makedirs(percorso_cartella, exist_ok=True)
 
-        os.makedirs(os.path.dirname(percorso_file), exist_ok=True)
+    os.makedirs(os.path.dirname(percorso_file), exist_ok=True)
 
-        data = response.json()
-        with open(percorso_file, "w", encoding="utf-8") as json_file:
-            json_file.write(json.dumps(data, ensure_ascii=False, indent=4))
+    data = response.json()
+    with open(percorso_file, "w", encoding="utf-8") as json_file:
+        json_file.write(json.dumps(data, ensure_ascii=False, indent=4))
 
-        if "results" in data:
-            for risultato in data["results"]:
-                titolo_completo = risultato["title"]
-                artista, album = titolo_completo.split(" - ", 1)
-                country = risultato.get("country")
-                anno = risultato.get("year")
-                master_url = risultato["master_url"]
-                formato = risultato.get("format", [])
-                genres = risultato.get("genres", [])
-                style = risultato.get("style", [])
-                barcode = risultato.get("barcode", [])
-                vinile = Vinile(
-                    artista,
-                    album,
-                    anno,
-                    country,
-                    master_url,
-                    formato,
-                    genres,
-                    style,
-                    barcode,
-                )
-                vinili_disponibili.append(vinile)
+    if "results" in data:
+        for risultato in data["results"]:
+            titolo_completo = risultato["title"]
+            artista, album = titolo_completo.split(" - ", 1)
+            country = risultato.get("country")
+            anno = risultato.get("year")
+            master_url = risultato["master_url"]
+            formato = risultato.get("format", [])
+            genres = risultato.get("genres", [])
+            style = risultato.get("style", [])
+            barcode = risultato.get("barcode", [])
+            vinile = Vinile(
+                artista,
+                album,
+                anno,
+                country,
+                master_url,
+                formato,
+                genres,
+                style,
+                barcode,
+            )
+            vinili_disponibili.append(vinile)
 
-        return vinili_disponibili
-    else:
-        return None
+    return vinili_disponibili
 
 
 def estrai_da_master_url(vinile):

@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  namespace: music-library
+  name: music-library-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: music-library

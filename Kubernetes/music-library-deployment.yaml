@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: music-library
+  name: music-library-deployment
+  labels:
+    app: music-library
+spec:
+  #replicas: 3
+  selector:
+    matchLabels:
+      app: music-library
+  template:
+    metadata:
+      labels:
+        app: music-library
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - music-library
+            topologyKey: "kubernetes.io/hostname"
+
+      securityContext:
+        runAsNonRoot: true
+
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 8.8.4.4
+        searches:
+          - music-library.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
+
+      containers:
+      - securityContext:
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          seccompProfile:
+            type: RuntimeDefault
+        name: music-library
+        image: 10.109.8.26/music-library:2.0.0
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 5002
+
+        livenessProbe:
+          httpGet:
+            path: /api/health_check
+            port: 5002
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health_check
+            port: 5002
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
+
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+            ephemeral-storage: "2Gi"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+            ephemeral-storage: "4Gi"
+
+        envFrom:
+          - configMapRef:
+              name: music-library-env
+          - secretRef:
+              name: music-library-secrets

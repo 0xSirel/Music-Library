@@ -56,6 +56,6 @@ jobs:
         echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Build
-      run: make build
+      run: make ci
       env:
         DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}

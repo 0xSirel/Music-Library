@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: music-library
   name: music-library-env
   labels:
     app: music-library
 data:
-  DISCOGS_TOKEN: YOUR_TOKEN
   FLASK_ENV: development
   MONGO_DB: Music-Library
   MONGO_HOST: mongo
-  MONGO_PASS: example
   MONGO_PORT: "27017"
-  MONGO_USER: root

@@ -23,3 +23,9 @@ build
 coverage.json
 Dump
 Kubernetes/env-configmap.yaml
+Kubernetes/music-library-secrets.yaml
+Kubernetes/env-mongo-secret.yaml
+Kubernetes/comandi-kubectl.txt
+.ruff_cache/
+.pytest_cache/
+.benchmarks/

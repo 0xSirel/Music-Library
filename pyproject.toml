@@ -21,7 +21,6 @@ classifiers = [
 dependencies = [
     "requests>=2.32.5",
     "Flask>=3.1.2",
-    "python-dotenv>=1.2.1",
     "pymongo>=4.15.5"
 ]
 [dependency-groups]
@@ -32,8 +31,8 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/0xSirel/MusicLibrary"
-Issues = "https://github.com/0xSirel/MusicLibrary/issues"
+Repository = "https://github.com/0xSirel/Music-Library"
+Issues = "https://github.com/0xSirel/Music-Library/issues"
 
 [project.scripts]
 music-library = "src.main:main"
@@ -116,5 +115,5 @@ omit = [
 ]
 
 [tool.coverage.report]
-fail_under = 80
+fail_under = 95
 show_missing = true

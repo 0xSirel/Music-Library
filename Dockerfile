@@ -1,27 +1,35 @@
-FROM ghcr.io/astral-sh/uv:python3.13-trixie
-
-RUN groupadd --system --gid 999 nonroot \
- && useradd --system --gid 999 --uid 999 --create-home nonroot
+FROM python:3.13-slim AS build
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /music_library
 
-ENV UV_COMPILE_BYTECODE=1
-ENV UV_LINK_MODE=copy
-ENV UV_NO_DEV=1
-ENV UV_TOOL_BIN_DIR=/usr/local/bin
-ENV PATH="/music_library/.venv/bin:$PATH"
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_TOOL_BIN_DIR=/usr/local/bin
 
 COPY pyproject.toml uv.lock ./
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-install-project
+    uv sync --locked --no-install-project --no-dev
 
-COPY --chown=nonroot:nonroot src/ ./src
+COPY src/ ./src
 
 
-RUN  chown -R nonroot:nonroot /music_library && uv sync --locked
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
 
-USER nonroot
+FROM python:3.13-slim AS runtime
+
+ENV PATH="/music_library/.venv/bin:$PATH"
+
+RUN groupadd -g 10001 appgroup && \
+    useradd -u 10001 -g appgroup -m -d /music_library -s /bin/false appuser
+
+WORKDIR /music_library
+
+COPY --from=build --chown=appuser:appgroup /music_library .
+
+USER appuser
 
 ENTRYPOINT ["python", "-m", "musiclibrary.main"]
 EXPOSE 5002
