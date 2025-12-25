@@ -12,7 +12,7 @@ def get_database():
     db_name = os.getenv("MONGO_DB", "Music-Library")
 
     uri = f"mongodb://{user}:{password}@{host}:{port}/?authSource=admin"
-    client = MongoClient(uri)
+    client: MongoClient[dict] = MongoClient(uri)
     return client[db_name]
 
 
