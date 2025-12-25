@@ -1,18 +1,38 @@
-.PHONY: lint-check test build clean ci
+.PHONY: clean lint typecheck test build install ci help
 
-clean:
-	rm -rf dist __pycache__ .pytest_cache .coverage src/Music_Library.egg-info coverage.json Dump src/musiclibrary/__pycache__ src/musiclibrary/Dump
+.DEFAULT_GOAL := help
 
-lint-check: clean
+DIST_DIR := dist
+SRC_DIR := src
+COVERAGE_FILE := coverage.json
+
+help: ## Show this help message
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
+
+clean: ## Clean build artifacts and cache
+	rm -rf $(DIST_DIR) __pycache__ .pytest_cache .coverage $(COVERAGE_FILE)
+	rm -rf $(SRC_DIR)/Music_Library.egg-info $(SRC_DIR)/musiclibrary/__pycache__
+	rm -rf Dump $(SRC_DIR)/musiclibrary/Dump .mypy_cache
+
+lint: ## Run linter (ruff)
 	uv sync --locked --dev
 	uv run ruff check
 
-test: clean
+typecheck: ## Run type checker (mypy)
+	uv sync --locked --dev
+	uv run mypy $(SRC_DIR)/
+
+test: clean ## Run tests with coverage
 	uv sync --locked --dev
 	uv run script_tests.py
-	make clean
+	$(MAKE) clean
 
-build: clean
+build: clean ## Build wheel package
 	uv build
 
-ci: lint-check test build
+install: build ## Build and install package
+	uv pip install $(DIST_DIR)/*.whl
+
+ci: lint typecheck test build ## Run full CI pipeline
+
+all: ci ## Alias for ci

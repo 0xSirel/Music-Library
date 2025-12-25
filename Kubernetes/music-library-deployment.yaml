@@ -6,7 +6,6 @@ metadata:
   labels:
     app: music-library
 spec:
-  #replicas: 3
   selector:
     matchLabels:
       app: music-library

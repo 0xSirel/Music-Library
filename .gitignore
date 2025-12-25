@@ -29,3 +29,4 @@ Kubernetes/comandi-kubectl.txt
 .ruff_cache/
 .pytest_cache/
 .benchmarks/
+.pre-commit-config.yaml

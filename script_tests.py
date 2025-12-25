@@ -7,6 +7,7 @@ import tomllib
 TOML_FILE = "pyproject.toml"
 MODULE = "src/musiclibrary"
 
+
 def run(command):
     print(f"Running: {' '.join(command)}")
     result = subprocess.run(command)
@@ -32,6 +33,7 @@ def main():
         if total < COVERAGE_THRESHOLD:
             print(f"Coverage {total:.2f}% < {COVERAGE_THRESHOLD}%! FAIL")
             sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

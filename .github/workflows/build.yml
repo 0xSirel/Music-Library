@@ -15,7 +15,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Bandit Scan
         uses: shundor/python-bandit-scan@ab1d87dfccc5a0ffab88be3aaac6ffe35c10d6cd
         with: # optional arguments
@@ -49,7 +49,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.13
-        
+
     - name: Install uv
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh

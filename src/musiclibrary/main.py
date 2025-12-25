@@ -46,6 +46,25 @@ def aggiungi():
     return jsonify({"inserted_id": str(result)}), 201
 
 
+@app.route("/api/remove/<album_id>", methods=["DELETE"])
+def rimuovi(album_id):
+    deleted_count = database.remove_album_by_id(album_id)
+    if deleted_count == 0:
+        return jsonify({"error": "Album not found"}), 404
+
+    return jsonify({"deleted_count": deleted_count}), 200
+
+
+@app.route("/api/get/<album_id>", methods=["GET"])
+def ottieni(album_id):
+    album = database.get_album(album_id)
+    if not album:
+        return jsonify({"error": "Album not found"}), 404
+
+    album["_id"] = str(album["_id"])
+    return jsonify(album)
+
+
 @app.route("/api/print", methods=["GET"])
 def stampa():
     return jsonify(database.get_all_albums())
@@ -57,7 +76,7 @@ def health_check():
 
 
 def main():
-    app.run(host="0.0.0.0", port=5002)  # nosec
+    app.run(host="0.0.0.0", port=5002)
 
 
 if __name__ == "__main__":
