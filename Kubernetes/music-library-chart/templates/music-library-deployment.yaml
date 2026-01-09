@@ -39,16 +39,16 @@ spec:
           - cluster.local
 
       containers:
-      - securityContext:
+      - name: {{ .Values.appLabel }}
+        securityContext:
           runAsUser: 10001
           runAsGroup: 10001
           allowPrivilegeEscalation: false
           capabilities:
             drop:
               - ALL
-        seccompProfile:
-          type: RuntimeDefault
-        name: {{ .Values.appLabel }}
+          seccompProfile:
+            type: RuntimeDefault
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
