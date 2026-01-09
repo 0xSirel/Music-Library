@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: music-library
+  namespace: argocd
+spec:
+  destination:
+    namespace: music-library
+    server: https://kubernetes.default.svc
+  project: music-library
+  source:
+    path: Kubernetes/music-library-chart
+    repoURL: https://github.com/0xSirel/Music-Library
+    targetRevision: main
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

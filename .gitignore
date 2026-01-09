@@ -22,11 +22,11 @@ src/Music_Library.egg-info
 build
 coverage.json
 Dump
-Kubernetes/env-configmap.yaml
-Kubernetes/music-library-secrets.yaml
-Kubernetes/env-mongo-secret.yaml
+Kubernetes/music-library-chart/templates/music-library-secrets.yaml
+Kubernetes/music-library-chart/templates/env-mongo-secret.yaml
 Kubernetes/comandi-kubectl.txt
 .ruff_cache/
 .pytest_cache/
 .benchmarks/
 .pre-commit-config.yaml
+.mypy_cache/

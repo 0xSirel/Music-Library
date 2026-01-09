@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namespace: music-library
+  namespace: {{ .Values.namespace }}
   name: mongo
   labels:
     app: mongo

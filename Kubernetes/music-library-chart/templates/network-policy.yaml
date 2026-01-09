@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: mongo-access
-  namespace: music-library
+  name: {{ .Values.kubernetesResources.networkPolicy }}
+  namespace: {{ .Values.namespace }}
 spec:
   podSelector:
     matchLabels:
@@ -11,9 +11,9 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          app: music-library
+          app: {{ .Values.appLabel }}
     ports:
-    - port: 27017
+    - port: {{ .Values.mongo.port }}
       protocol: TCP
   policyTypes:
   - Ingress

@@ -1,11 +1,12 @@
 # 🎵 Music Library
 
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](docker-compose.yml)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=fff)](#)
+[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](#)
 [![CI](https://github.com/0xSirel/Music-Library/actions/workflows/build.yml/badge.svg)](https://github.com/0xSirel/Music-Library/actions/workflows/build.yml)
 
-A music library application that allows you to search for albums and artists in a database of vinyl, CD and cassette powered by **Discogs** and save them in your local library.
+A music library application that allows you to search for albums and artists in a database of vinyl, CD and cassette powered by Discogs and save them in your local library.
 
 ## ✨ Features
 
@@ -13,22 +14,28 @@ A music library application that allows you to search for albums and artists in 
 - 💾 Save your collection to MongoDB
 - 🐳 Docker & Kubernetes ready
 - 🧪 Comprehensive test suite
+- 🚀 Deploy with ArgoCD
 
 ## 🏗️ Architecture
 
 ```mermaid
 graph TB
+    subgraph Argocd Deployment
+        Dev[Git Push] --> ArgoCD[ArgoCD]
+        ArgoCD -. monitor repo .-> Git[GitHub]
+        ArgoCD -- Apply manifest --> K8s[Kubernetes Cluster]
+    end
     subgraph Kubernetes Cluster
         subgraph music-library namespace
-            LB[LoadBalancer<br/>:5002] --> SVC[ClusterIP Service]
+            LB[LoadBalancer\n:5002] --> SVC[ClusterIP Service]
             SVC --> POD1[Pod Flask 1]
             SVC --> POD2[Pod Flask 2]
             POD1 --> HS[Headless Service]
             POD2 --> HS
-            HS --> MONGO[(StatefulSet<br/>MongoDB)]
-            HPA[HorizontalPodAutoscaler<br/>2-4 replicas] -.-> POD1
+            HS --> MONGO[(StatefulSet\nMongoDB)]
+            HPA[HorizontalPodAutoscaler\n2-4 replicas] -.-> POD1
             HPA -.-> POD2
-            PDB[PodDisruptionBudget<br/>minAvailable: 2] -.-> POD1
+            PDB[PodDisruptionBudget\nminAvailable: 2] -.-> POD1
             PDB -.-> POD2
             NP[NetworkPolicy] -.-> MONGO
         end
@@ -49,23 +56,72 @@ graph TB
 | `GET` | `/api/print` | Get all albums in library |
 | `GET` | `/api/health_check` | Health check endpoint |
 
+## ☸️ Kubernetes Deployment
+
+### Prerequisites
+- Kubernetes cluster (minikube, EKS, GKE, etc.)
+- Helm 3+
+- ArgoCD CLI (optional)
+
+### Quick Start with ArgoCD
+
+1. **Install ArgoCD** using Helm:
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace
+```
+
+2. **Configure ArgoCD to deploy Music Library:**
+```bash
+kubectl apply -f Kubernetes/ArgoCD/argocd-deploy-project.yaml
+kubectl apply -f Kubernetes/ArgoCD/argocd-deploy.yaml
+```
+
+### Manual Deployment with Helm
+
+Deploy directly without ArgoCD:
+```bash
+helm install music-library ./Kubernetes/music-library-chart \
+  -n music-library \
+  --create-namespace
+```
+
+### Access the Application
+
+```bash
+# Get the LoadBalancer IP
+kubectl get svc -n music-library music-library-lb
+
+# Or port-forward to localhost
+kubectl port-forward -n music-library svc/music-library 5002:5002
+```
+
+Access at `http://localhost:5002` or the LoadBalancer IP.
+
+### Chart Configuration
+
+- **Helm Chart:** `Kubernetes/music-library-chart/`
+- **Values:** `Kubernetes/music-library-chart/values.yaml`
+- **ArgoCD Configuration:** `Kubernetes/ArgoCD/`
+
 ## 📋 Requirements
 
 - Python 3.13+
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - Docker & Docker Compose (for containerized deployment)
 
-## 🚀 Quick Start
+## 🐳 Docker Deployment
 
-### Using Docker (recommended)
+### Using Docker Compose
 
-1. Copy the environment file and configure it:
+1. Copy the environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Edit `.env` with your Discogs token (see [Configuration](#%EF%B8%8F-configuration))
+2. Edit `.env` with your Discogs token
 
 3. Start the application:
 
@@ -73,22 +129,26 @@ cp .env.example .env
 docker compose up -d
 ```
 
-4. Access the API at `http://localhost:5002`
+4. Access at `http://localhost:5002`
 
-### Local Development
+## 🚀 Local Development
 
-1. Install dependencies:
+### Prerequisites
+- Python 3.13+
+- [uv](https://docs.astral.sh/uv/) (recommended)
+- MongoDB running locally
+
+### With uv (Recommended)
 
 ```bash
+# Install dependencies
 uv sync --dev
-```
 
-2. Configure environment variables (see [Configuration](#%EF%B8%8F-configuration))
+# Configure environment (see Configuration section below)
+cp .env.example .env
 
-3. Run the application:
-
-```bash
-uv run python src/musiclibrary/main.py
+# Run the application
+uv run python -m musiclibrary.main
 ```
 
 ## ⚙️ Configuration
@@ -132,9 +192,7 @@ make install   # Build and install package
 make all       # Run full CI pipeline (lint, typecheck, test, build)
 ```
 
-## 📦 Building
-
-Build the wheel distribution:
+### Building Distribution
 
 ```bash
 make build
@@ -145,14 +203,6 @@ Install the built package:
 ```bash
 make install
 ```
-
-## ☸️ Kubernetes Deployment
-
-Kubernetes manifests are available in the `Kubernetes/` directory. Run [Kubernetes/kube-start.sh](Kubernetes/kube-start.sh) for a quick start.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Credits
 
