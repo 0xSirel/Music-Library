@@ -9,12 +9,11 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: 10.109.8.26/music-library
+  repository: ghcr.io/0xsirel/music-library
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.2.0"
-
+  tag: "2.4.1"
 service:
   name: music-library
   type: ClusterIP
