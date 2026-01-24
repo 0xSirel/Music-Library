@@ -12,8 +12,7 @@ A music library application that allows you to search for albums and artists in 
 
 - 🔍 Search albums and artists via Discogs API
 - 💾 Save your collection to MongoDB
-- 🐳 Docker & Kubernetes ready
-- 🧪 Comprehensive test suite
+- 🐳 Docker images & Kubernetes manifest
 - 🚀 Deploy with ArgoCD
 
 ## 🏗️ Architecture
@@ -112,7 +111,20 @@ Access at `http://localhost:5002` or the LoadBalancer IP.
 - Docker & Docker Compose (for containerized deployment)
 
 ## 🐳 Docker Deployment
+### Pull the Docker Image
 
+```bash
+docker pull ghcr.io/0xSirel/Music-Library:vX.Y.Z
+```
+### Run the Docker Container
+
+```bash
+docker run -p 5002:5002 \
+  -e MONGO_URI=mongodb://mongodb:27017 \
+  -e DISCOGS_TOKEN=your_token_here \
+  ghcr.io/0xSirel/Music-Library:vX.Y.Z
+```
+Replace vX.Y.Z with the latest release version.
 ### Using Docker Compose
 
 1. Copy the environment file:
