@@ -114,7 +114,7 @@ Access at `http://localhost:5002` or the LoadBalancer IP.
 ### Pull the Docker Image
 
 ```bash
-docker pull ghcr.io/0xSirel/Music-Library:vX.Y.Z
+docker pull ghcr.io/0xsirel/music-library:vX.Y.Z
 ```
 ### Run the Docker Container
 
@@ -122,7 +122,7 @@ docker pull ghcr.io/0xSirel/Music-Library:vX.Y.Z
 docker run -p 5002:5002 \
   -e MONGO_URI=mongodb://mongodb:27017 \
   -e DISCOGS_TOKEN=your_token_here \
-  ghcr.io/0xSirel/Music-Library:vX.Y.Z
+  ghcr.io/0xsirel/music-library:vX.Y.Z
 ```
 Replace vX.Y.Z with the latest release version.
 ### Using Docker Compose
