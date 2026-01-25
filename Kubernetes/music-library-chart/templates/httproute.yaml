@@ -4,6 +4,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
+  namespace: {{ .Values.namespace }}
   name: {{ $fullName }}
   labels:
     {{- include "music-library-chart.labels" . | nindent 4 }}

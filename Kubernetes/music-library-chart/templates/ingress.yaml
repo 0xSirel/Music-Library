@@ -2,6 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  namespace: {{ .Values.namespace }}
   name: {{ include "music-library-chart.fullname" . }}
   labels:
     {{- include "music-library-chart.labels" . | nindent 4 }}

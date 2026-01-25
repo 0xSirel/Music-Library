@@ -4,16 +4,19 @@ metadata:
   name: music-library
   namespace: argocd
 spec:
-  clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
+  sourceRepos:
+    - https://github.com/0xSirel/Music-Library
+
   destinations:
-  - name: in-cluster
-    namespace: music-library
-    server: https://kubernetes.default.svc
-  - name: in-cluster
-    namespace: metallb-system
-    server: https://kubernetes.default.svc
+    - server: https://kubernetes.default.svc
+      namespace: music-library
+    - server: https://kubernetes.default.svc
+      namespace: metallb-system
+
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
   namespaceResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: "*"
+      kind: "*"

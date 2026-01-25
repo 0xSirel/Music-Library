@@ -4,18 +4,20 @@ metadata:
   name: music-library
   namespace: argocd
 spec:
-  destination:
-    namespace: music-library
-    server: https://kubernetes.default.svc
   project: music-library
+
   source:
-    path: Kubernetes/music-library-chart
     repoURL: https://github.com/0xSirel/Music-Library
     targetRevision: main
+    path: Kubernetes/music-library-chart
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: music-library
+
   syncPolicy:
     automated:
-      enabled: true
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true

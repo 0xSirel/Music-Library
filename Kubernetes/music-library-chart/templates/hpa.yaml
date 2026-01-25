@@ -2,6 +2,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
+  namespace: {{ .Values.namespace }}
   name: {{ include "music-library-chart.fullname" . }}
   labels:
     {{- include "music-library-chart.labels" . | nindent 4 }}
