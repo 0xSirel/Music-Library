@@ -78,6 +78,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Download build artifacts
         uses: actions/download-artifact@v5
@@ -87,11 +89,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: 0xSirel/Music-Library
 
+      - name: Install git-chglog
+        run: |
+          wget https://github.com/git-chglog/git-chglog/releases/download/v0.15.4/git-chglog_linux_amd64 -O git-chglog
+          chmod +x git-chglog
+          sudo mv git-chglog /usr/local/bin/
+
+      - name: Generate changelog
+        run: |
+          git-chglog ${{ github.ref_name }} > RELEASE_BODY.md
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
+          body_path: RELEASE_BODY.md
           files: "dist/*.whl"
 
   hadolint:
