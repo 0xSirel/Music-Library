@@ -91,8 +91,8 @@ jobs:
 
       - name: Install git-chglog
         run: |
-          wget https://github.com/git-chglog/git-chglog/releases/download/v0.15.4/git-chglog_linux_amd64 -O git-chglog
-          chmod +x git-chglog
+          wget https://github.com/git-chglog/git-chglog/releases/download/v0.15.4/git-chglog_0.15.4_linux_amd64.tar.gz
+          tar xzf git-chglog_0.15.4_linux_amd64.tar.gz
           sudo mv git-chglog /usr/local/bin/
 
       - name: Generate changelog
